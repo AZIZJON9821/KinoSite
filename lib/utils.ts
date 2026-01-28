@@ -9,10 +9,18 @@ export function getResourceUrl(path: string | undefined | null, type: 'poster' |
     if (!path) return type === 'poster' ? "https://via.placeholder.com/800x400?text=No+Image" : "";
     if (path.startsWith("http")) return path;
 
-    // Use empty string as default to leverage relative paths and Next.js rewrites
+    // Use relative paths to leverage Next.js rewrites/proxy
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
-    if (path.startsWith("/")) return `${baseUrl}${path}`;
+    if (path.startsWith("/")) {
+        // If it's already an absolute-like path from backend (e.g. /uploads/...)
+        return `${baseUrl}${path}`;
+    }
+
+    // Check if the path already includes 'uploads/'
+    if (path.includes('uploads/')) {
+        return `${baseUrl}/${path.replace(/^\/+/, '')}`;
+    }
 
     const folder = type === 'video' ? 'videos' : 'posters';
     return `${baseUrl}/uploads/${folder}/${path}`;

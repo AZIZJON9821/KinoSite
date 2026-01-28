@@ -1,12 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMovies } from "@/hooks/useMovies";
 import { getImageUrl } from "@/lib/utils";
 
 export function CircularNav() {
-    const { data: movies } = useMovies();
-    const circularMovies = movies?.slice(0, 11) || [];
+    const { data: movies } = useMovies({ limit: 12, sort: "newest" });
+    const circularMovies = movies || [];
 
     if (circularMovies.length === 0) return null;
 
@@ -20,11 +21,12 @@ export function CircularNav() {
                             href={`/movies/${movie.id}`}
                             className="flex-shrink-0 flex flex-col items-center group/item"
                         >
-                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-[3px] border-gray-500/80 overflow-hidden shadow-xl transform active:scale-95 transition-all">
-                                <img
+                            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-[3px] border-gray-500/80 overflow-hidden shadow-xl transform active:scale-95 transition-all relative">
+                                <Image
                                     src={getImageUrl(movie.poster)}
                                     alt={movie.title}
-                                    className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all"
+                                    fill
+                                    className="object-cover grayscale-[20%] hover:grayscale-0 transition-all"
                                 />
                             </div>
                             <span className="text-[9px] md:text-[10px] text-gray-400 mt-1 md:mt-2 max-w-[70px] md:max-w-[80px] truncate text-center group-hover/item:text-blue-400 transition-colors">

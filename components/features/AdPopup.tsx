@@ -157,8 +157,10 @@ export function AdPopup() {
     if (status !== 'showing' || !currentAd) return null;
 
     const getAdUrl = (path: string) => {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-        return `${baseUrl}/uploads/ads/${path}`;
+        if (!path) return "";
+        if (path.startsWith("http")) return path;
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        return `${baseUrl}/uploads/ads/${path.replace(/^\/+/, '')}`;
     };
 
     return (
