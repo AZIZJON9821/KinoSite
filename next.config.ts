@@ -58,8 +58,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/categories/:path*",
-        destination: "https://api.it-mahalla.uz/categories/:path*",
+        source: "/api/:path*",
+        destination: "http://51.20.250.43:3000/:path*",
       },
       {
         source: "/uploads/:path*",
