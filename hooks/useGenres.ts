@@ -9,7 +9,7 @@ export interface Genre {
 const fetchGenres = async () => {
     try {
         const { data } = await api.get<Genre[]>("/genres");
-        return data || [];
+        return Array.isArray(data) ? data : [];
     } catch (error) {
         console.error("Error fetching genres:", error);
         return [];

@@ -64,12 +64,14 @@ export function Header() {
             label: "JANR",
             href: "#",
             children: [
-                ...(genres
-                    ?.filter(g => g.name.toLowerCase() !== "serial")
-                    .map(g => ({
-                        label: g.name,
-                        href: `/movies?genre=${g.name}`
-                    })) || [])
+                ...(Array.isArray(genres)
+                    ? genres
+                        .filter(g => g.name.toLowerCase() !== "serial")
+                        .map(g => ({
+                            label: g.name,
+                            href: `/movies?genre=${g.name}`
+                        }))
+                    : [])
             ]
         },
         { label: "KINO YANGILIKLARI", href: "/#premyeralar" },
