@@ -9,7 +9,8 @@ export function getResourceUrl(path: string | undefined | null, type: 'poster' |
     if (!path) return type === 'poster' ? "https://via.placeholder.com/800x400?text=No+Image" : "";
     if (path.startsWith("http")) return path;
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    // Use empty string as default to leverage relative paths and Next.js rewrites
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
     if (path.startsWith("/")) return `${baseUrl}${path}`;
 

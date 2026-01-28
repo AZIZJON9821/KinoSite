@@ -18,7 +18,7 @@ export default function EditMoviePage() {
     useEffect(() => {
         const fetchMovie = async () => {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/movies/${id}`);
+                const response = await axios.get(`/api/movies/${id}`);
                 setMovie(response.data);
             } catch (error) {
                 console.error("Failed to fetch movie:", error);

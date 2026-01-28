@@ -224,8 +224,8 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
             }
 
             const url = isEditing
-                ? `${process.env.NEXT_PUBLIC_API_URL}/movies/${initialData.id}`
-                : `${process.env.NEXT_PUBLIC_API_URL}/movies`;
+                ? `/api/movies/${initialData.id}`
+                : `/api/movies`;
 
             const method = isEditing ? "patch" : "post";
 
