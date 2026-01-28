@@ -11,7 +11,7 @@ import axios from "axios";
 
 export default function EditMoviePage() {
     const params = useParams();
-    const id = params.id as string;
+    const id = params?.id as string;
     const [movie, setMovie] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 

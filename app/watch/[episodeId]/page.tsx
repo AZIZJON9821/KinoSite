@@ -8,15 +8,13 @@ import { useMovie } from "@/hooks/useMovies";
 import { Loader2, ArrowLeft, Send } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { useState, Suspense } from "react";
 
-// Assuming we need to fetch the specific episode info or find it in the list
-import { useState } from "react";
-
-// Assuming we need to fetch the specific episode info or find it in the list
-export default function WatchPage() {
-    const { episodeId } = useParams();
+function WatchContent() {
+    const params = useParams();
+    const episodeId = params?.episodeId;
     const searchParams = useSearchParams();
-    const movieId = searchParams.get('movieId');
+    const movieId = searchParams?.get('movieId');
     const [isRedirecting, setIsRedirecting] = useState(false);
 
     // Epizodlar va Kino ma'lumotlarini olish
@@ -109,5 +107,13 @@ export default function WatchPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function WatchPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="animate-spin text-primary" /></div>}>
+            <WatchContent />
+        </Suspense>
     );
 }

@@ -7,6 +7,7 @@ export interface Advertisement {
     type: 'IMAGE' | 'VIDEO';
     mediaUrl: string;
     isActive: boolean;
+    link?: string;
     createdAt: string;
 }
 

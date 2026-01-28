@@ -66,7 +66,6 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
             telegramFileId: initialData?.telegramFileId || "",
             country: initialData?.country || "",
             releaseYear: initialData?.releaseYear || new Date().getFullYear(),
-            releaseYear: initialData?.releaseYear || new Date().getFullYear(),
             rating: initialData?.rating || 0,
             isPremier: initialData?.isPremier || false,
             genreIds: initialData?.genres?.map((g: any) => g.genre.id) || [],
