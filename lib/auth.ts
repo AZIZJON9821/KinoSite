@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 try {
-                    const response = await axios.post(`/api/auth/google`, {
+                    const response = await axios.post(`/api-backend/auth/google`, {
                         token: account.id_token || account.access_token,
                     });
 

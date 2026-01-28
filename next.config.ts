@@ -40,7 +40,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/api/:path*",
+        source: "/api-backend/:path*",
         headers: [
           { key: "Access-Control-Allow-Origin", value: "*" },
           {
@@ -58,7 +58,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/:path*",
+        source: "/api-backend/:path*",
         destination: "http://51.20.250.43:3000/:path*",
       },
       {

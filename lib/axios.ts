@@ -5,7 +5,7 @@ import { getSession } from "next-auth/react";
 // Let's use standard axios instance.
 
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
-const API_URL = "/api";
+const API_URL = "/api-backend";
 
 const api = axios.create({
     baseURL: API_URL,

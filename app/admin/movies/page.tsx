@@ -21,7 +21,7 @@ export default function AdminMovies() {
         if (!confirm(`"${title}" kinosini o'chirishni xohlaysizmi?`)) return;
 
         try {
-            await axios.delete(`/api/movies/${id}`, {
+            await axios.delete(`/api-backend/movies/${id}`, {
                 headers: {
                     Authorization: `Bearer ${session?.accessToken}`
                 }
