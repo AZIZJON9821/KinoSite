@@ -5,7 +5,9 @@ import { getSession } from "next-auth/react";
 // Let's use standard axios instance.
 
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
-const API_URL = "/api-backend";
+const API_URL = typeof window === "undefined"
+    ? (process.env.NEXT_PUBLIC_API_URL || "http://51.20.250.43:3000")
+    : "/api-backend";
 
 const api = axios.create({
     baseURL: API_URL,

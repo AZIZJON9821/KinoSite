@@ -13,7 +13,8 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 try {
-                    const response = await axios.post(`/api-backend/auth/google`, {
+                    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://51.20.250.43:3000";
+                    const response = await axios.post(`${backendUrl}/auth/google`, {
                         token: account.id_token || account.access_token,
                     });
 
