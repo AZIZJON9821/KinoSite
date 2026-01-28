@@ -6,7 +6,7 @@ import { useMovies } from "@/hooks/useMovies";
 import { getImageUrl } from "@/lib/utils";
 
 export function CircularNav() {
-    const { data: movies } = useMovies({ limit: 12, sort: "newest" });
+    const { data: movies } = useMovies({ limit: 11, sort: "newest" });
     const circularMovies = movies || [];
 
     if (circularMovies.length === 0) return null;
