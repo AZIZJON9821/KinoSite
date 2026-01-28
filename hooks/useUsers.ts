@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { customAxios } from "@/api/instances";
+import { customAxios } from "@/api-client/instances";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 
