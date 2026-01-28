@@ -159,7 +159,11 @@ export function AdPopup() {
     const getAdUrl = (path: string) => {
         if (!path) return "";
         if (path.startsWith("http")) return path;
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+
+        const baseUrl = typeof window === "undefined"
+            ? (process.env.NEXT_PUBLIC_API_URL || "http://51.20.250.43:3000")
+            : "";
+
         return `${baseUrl}/uploads/ads/${path.replace(/^\/+/, '')}`;
     };
 

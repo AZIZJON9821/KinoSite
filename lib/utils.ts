@@ -9,21 +9,21 @@ export function getResourceUrl(path: string | undefined | null, type: 'poster' |
     if (!path) return type === 'poster' ? "https://via.placeholder.com/800x400?text=No+Image" : "";
     if (path.startsWith("http")) return path;
 
-    // Use relative paths to leverage Next.js rewrites/proxy
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+    // For client-side, always use relative paths to trigger Vercel proxy/rewrites
+    // This avoids Mixed Content (HTTPS -> HTTP) and CORS issues
+    const baseUrl = typeof window === "undefined"
+        ? (process.env.NEXT_PUBLIC_API_URL || "http://51.20.250.43:3000")
+        : "";
 
-    if (path.startsWith("/")) {
-        // If it's already an absolute-like path from backend (e.g. /uploads/...)
-        return `${baseUrl}${path}`;
-    }
+    // Clean up the path: remove leading /uploads if it exists to avoid double prefix
+    let cleanPath = path.replace(/^\/+/, '');
 
-    // Check if the path already includes 'uploads/'
-    if (path.includes('uploads/')) {
-        return `${baseUrl}/${path.replace(/^\/+/, '')}`;
+    if (cleanPath.startsWith('uploads/')) {
+        return `${baseUrl}/${cleanPath}`;
     }
 
     const folder = type === 'video' ? 'videos' : 'posters';
-    return `${baseUrl}/uploads/${folder}/${path}`;
+    return `${baseUrl}/uploads/${folder}/${cleanPath}`;
 }
 
 export function getImageUrl(path: string | undefined | null) {
