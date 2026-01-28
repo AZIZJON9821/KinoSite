@@ -22,7 +22,8 @@ const fetchMovies = async (filters?: MoviesFilters) => {
     if (filters?.search) params.append("search", filters.search);
     if (filters?.sort) params.append("sortBy", filters.sort);
     if (filters?.isPremier !== undefined) params.append("isPremier", String(filters.isPremier));
-    if (filters?.limit) params.append("limit", String(filters.limit));
+    const limit = filters?.limit || 100;
+    params.append("limit", String(limit));
     if (filters?.minRating) params.append("minRating", String(filters.minRating));
     if (filters?.type) params.append("type", filters.type);
     if (filters?.excludeGenres) params.append("excludeGenres", filters.excludeGenres);
