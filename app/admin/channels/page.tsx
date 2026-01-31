@@ -184,28 +184,38 @@ export default function ChannelsPage() {
                             <p className="text-center text-gray-500 bg-[#1a202c] p-6 rounded-xl text-sm">Hozircha kanallar yo'q</p>
                         ) : (
                             channels.map((channel) => (
-                                <div key={channel.id} className="bg-[#1a202c] border border-gray-800 p-3 sm:p-4 rounded-xl group hover:border-blue-500/30 transition-colors">
-                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                                        <div className="flex items-start gap-3 min-w-0 flex-1">
+                                <div key={channel.id} className="bg-[#1a202c] border border-gray-800 rounded-xl overflow-hidden group hover:border-blue-500/30 transition-colors">
+                                    <div className="p-3 sm:p-4">
+                                        {/* Header with icon and title */}
+                                        <div className="flex items-start gap-3 mb-3">
                                             <div className={`p-2 sm:p-3 rounded-lg flex-shrink-0 ${channel.type === 'TELEGRAM' ? 'bg-blue-500/10 text-blue-500' : 'bg-pink-500/10 text-pink-500'}`}>
                                                 {channel.type === 'TELEGRAM' ? <Send className="h-5 w-5 sm:h-6 sm:w-6" /> : <Instagram className="h-5 w-5 sm:h-6 sm:w-6" />}
                                             </div>
                                             <div className="min-w-0 flex-1">
-                                                <h4 className="font-bold text-base sm:text-lg truncate">{channel.name}</h4>
-                                                <a href={channel.link} target="_blank" className="text-xs text-blue-400 hover:underline block truncate">{channel.link}</a>
+                                                <h4 className="font-bold text-base sm:text-lg break-words">{channel.name}</h4>
+                                                <a
+                                                    href={channel.link}
+                                                    target="_blank"
+                                                    className="text-xs text-blue-400 hover:underline block break-all"
+                                                >
+                                                    {channel.link}
+                                                </a>
                                                 {channel.channelId && (
-                                                    <p className="text-[10px] text-gray-500 font-mono mt-1 truncate">ID: {channel.channelId}</p>
+                                                    <p className="text-[10px] text-gray-500 font-mono mt-1 break-all">
+                                                        ID: {channel.channelId}
+                                                    </p>
                                                 )}
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
-                                            <div className="flex-1 sm:flex-initial">
-                                                <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-300">
+                                        {/* Stats and delete button */}
+                                        <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+                                            <div className="flex-1 mr-3">
+                                                <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-300 mb-1">
                                                     <Users className="h-3 w-3 flex-shrink-0" />
-                                                    <span className="whitespace-nowrap">{channel.currentCount} / {channel.targetCount || '∞'}</span>
+                                                    <span>{channel.currentCount} / {channel.targetCount || '∞'}</span>
                                                 </div>
-                                                <div className="w-20 sm:w-24 h-1 bg-gray-700 rounded-full mt-1 overflow-hidden">
+                                                <div className="w-full max-w-[200px] h-1.5 bg-gray-700 rounded-full overflow-hidden">
                                                     <div
                                                         className="h-full bg-blue-500 transition-all duration-500"
                                                         style={{
