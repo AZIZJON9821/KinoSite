@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function getResourceUrl(path: string | undefined | null, type: 'poster' | 'video' = 'poster') {
+export function getResourceUrl(path: string | undefined | null, type: 'poster' | 'video' | 'ad' = 'poster') {
     if (!path) return type === 'poster' ? "https://via.placeholder.com/800x400?text=No+Image" : "";
     if (path.startsWith("http")) return path;
 
@@ -19,12 +19,19 @@ export function getResourceUrl(path: string | undefined | null, type: 'poster' |
         return `${backendUrl}/${cleanPath}`;
     }
 
-    const folder = type === 'video' ? 'videos' : 'posters';
+    let folder = 'posters';
+    if (type === 'video') folder = 'videos';
+    if (type === 'ad') folder = 'ads';
+
     return `${backendUrl}/uploads/${folder}/${cleanPath}`;
 }
 
 export function getImageUrl(path: string | undefined | null) {
     return getResourceUrl(path, 'poster');
+}
+
+export function getAdUrl(path: string | undefined | null) {
+    return getResourceUrl(path, 'ad');
 }
 
 /**

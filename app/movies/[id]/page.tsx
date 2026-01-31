@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { getImageUrl, getYouTubeEmbedUrl } from "@/lib/utils";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 
 export default function MovieDetailPage() {
@@ -52,11 +53,14 @@ export default function MovieDetailPage() {
                 <div className="grid grid-cols-1 md:grid-cols-[350px_1fr] gap-6 mb-6 items-start">
                     {/* Poster */}
                     <div className="relative group">
-                        <div className="aspect-[2/3] w-full rounded-lg overflow-hidden shadow-2xl relative">
-                            <img
+                        <div className="aspect-[2/3] w-full rounded-lg overflow-hidden shadow-2xl relative bg-gray-900">
+                            <Image
                                 src={getImageUrl(movie.poster)}
                                 alt={movie.title}
-                                className="w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                priority
+                                sizes="(max-width: 768px) 100vw, 350px"
                             />
                         </div>
                     </div>
@@ -259,11 +263,13 @@ export default function MovieDetailPage() {
 
                 {/* Backdrop Image (Optional) */}
                 {movie.backdropUrl && (
-                    <div className="mt-8 rounded-lg overflow-hidden shadow-xl border border-gray-700/50">
-                        <img
+                    <div className="mt-8 rounded-lg overflow-hidden shadow-xl border border-gray-700/50 relative aspect-video">
+                        <Image
                             src={getImageUrl(movie.backdropUrl)}
                             alt={`${movie.title} backdrop`}
-                            className="w-full h-auto object-cover"
+                            fill
+                            className="object-cover"
+                            sizes="100vw"
                         />
                     </div>
                 )}

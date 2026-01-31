@@ -5,8 +5,9 @@ import { useAds, useCreateAd, useDeleteAd, useToggleAdStatus } from "@/hooks/use
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Loader2, Trash2, Video, Image as ImageIcon, Upload } from "lucide-react";
-import { getImageUrl } from "@/lib/utils";
+import { getImageUrl, getAdUrl } from "@/lib/utils";
 import { toast } from "react-hot-toast";
+import Image from "next/image";
 
 export default function AdsPage() {
     const { data: ads, isLoading } = useAds();
@@ -103,15 +104,19 @@ export default function AdsPage() {
                                 <div className="aspect-video bg-black relative">
                                     {ad.type === 'VIDEO' ? (
                                         <video
-                                            src={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/uploads/ads/${ad.mediaUrl}`}
+                                            src={getAdUrl(ad.mediaUrl)}
                                             className="w-full h-full object-cover opacity-60"
                                         />
                                     ) : (
-                                        <img
-                                            src={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/uploads/ads/${ad.mediaUrl}`}
-                                            alt={ad.title}
-                                            className="w-full h-full object-cover opacity-60"
-                                        />
+                                        <div className="relative w-full h-full opacity-60">
+                                            <Image
+                                                src={getAdUrl(ad.mediaUrl)}
+                                                alt={ad.title}
+                                                fill
+                                                className="object-cover"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                            />
+                                        </div>
                                     )}
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         {ad.type === 'VIDEO' ? <Video className="w-10 h-10 text-white/50" /> : <ImageIcon className="w-10 h-10 text-white/50" />}
