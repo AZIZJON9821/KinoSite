@@ -59,7 +59,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api-backend/:path*",
-        destination: "http://51.20.250.43:3000/:path*",
+        destination: "http://56.228.41.173:3000/:path*",
       },
       {
         source: "/uploads/:path*",
