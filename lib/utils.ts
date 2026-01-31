@@ -9,21 +9,18 @@ export function getResourceUrl(path: string | undefined | null, type: 'poster' |
     if (!path) return type === 'poster' ? "https://via.placeholder.com/800x400?text=No+Image" : "";
     if (path.startsWith("http")) return path;
 
-    // For client-side, always use relative paths to trigger Vercel proxy/rewrites
-    // This avoids Mixed Content (HTTPS -> HTTP) and CORS issues
-    const baseUrl = typeof window === "undefined"
-        ? (process.env.NEXT_PUBLIC_API_URL || "http://51.20.250.43:3000")
-        : "";
+    // Always use full backend URL for images to work with Next.js Image component
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://56.228.41.173:3000";
 
-    // Clean up the path: remove leading /uploads if it exists to avoid double prefix
+    // Clean up the path: remove leading slashes
     let cleanPath = path.replace(/^\/+/, '');
 
     if (cleanPath.startsWith('uploads/')) {
-        return `${baseUrl}/${cleanPath}`;
+        return `${backendUrl}/${cleanPath}`;
     }
 
     const folder = type === 'video' ? 'videos' : 'posters';
-    return `${baseUrl}/uploads/${folder}/${cleanPath}`;
+    return `${backendUrl}/uploads/${folder}/${cleanPath}`;
 }
 
 export function getImageUrl(path: string | undefined | null) {
