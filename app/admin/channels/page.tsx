@@ -33,7 +33,8 @@ export default function ChannelsPage() {
 
     const fetchChannels = async () => {
         try {
-            const { data } = await axios.get("/api-backend/channels", {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api-backend';
+            const { data } = await axios.get(`${apiUrl}/channels`, {
                 headers: { Authorization: `Bearer ${session?.accessToken}` }
             });
             setChannels(data);
@@ -56,7 +57,8 @@ export default function ChannelsPage() {
         setLoading(true);
 
         try {
-            await axios.post("/api-backend/channels", form, {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api-backend';
+            await axios.post(`${apiUrl}/channels`, form, {
                 headers: { Authorization: `Bearer ${session?.accessToken}` }
             });
             toast.success("Kanal qo'shildi!");
@@ -74,7 +76,8 @@ export default function ChannelsPage() {
     const handleDelete = async (id: string) => {
         if (!confirm("Haqiqatan ham bu kanalni o'chirmoqchimisiz?")) return;
         try {
-            await axios.delete(`/api-backend/channels/${id}`, {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api-backend';
+            await axios.delete(`${apiUrl}/channels/${id}`, {
                 headers: { Authorization: `Bearer ${session?.accessToken}` }
             });
             toast.success("Kanal o'chirildi!");
