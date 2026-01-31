@@ -40,7 +40,8 @@ export default function BotAdsPage() {
                 formData.append("file", form.file);
             }
 
-            const { data } = await axios.post("/api-backend/bot/broadcast", formData, {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api-backend';
+            const { data } = await axios.post(`${apiUrl}/bot/broadcast`, formData, {
                 headers: {
                     Authorization: `Bearer ${session?.accessToken}`,
                     "Content-Type": "multipart/form-data"
