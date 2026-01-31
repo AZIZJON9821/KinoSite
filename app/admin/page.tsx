@@ -116,9 +116,16 @@ export default function AdminDashboard() {
                     {/* Only for SuperAdmin */}
                     <SuperAdminGuard noRedirect>
                         <Link href="/admin/users">
-                            <div className="flex items-center gap-3 p-4 bg-red-600/10 border border-red-500/20 hover:bg-red-600/20 rounded-lg transition-all cursor-pointer">
+                            <div className="flex items-center gap-3 p-4 bg-red-600/10 border border-red-500/20 hover:bg-red-600/20 rounded-lg transition-all cursor-pointer mb-4">
                                 <Users className="h-5 w-5 text-red-500" />
                                 <span className="font-bold">Foydalanuvchilarni Boshqarish</span>
+                            </div>
+                        </Link>
+
+                        <Link href="/admin/bot-ads">
+                            <div className="flex items-center gap-3 p-4 bg-cyan-600/10 border border-cyan-500/20 hover:bg-cyan-600/20 rounded-lg transition-all cursor-pointer">
+                                <Megaphone className="h-5 w-5 text-cyan-500" />
+                                <span className="font-bold">Bot Reklama Tizimi</span>
                             </div>
                         </Link>
                     </SuperAdminGuard>
