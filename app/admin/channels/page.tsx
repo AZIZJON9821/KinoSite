@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useSession } from "next-auth/react";
-import { PlusCircle, Trash2, Send, Instagram } from "lucide-react";
+import { PlusCircle, Trash2, Send, Instagram, Users } from "lucide-react";
 
 interface Channel {
     id: string;
@@ -15,6 +15,8 @@ interface Channel {
     link: string;
     channelId?: string;
     type: 'TELEGRAM' | 'INSTAGRAM';
+    targetCount?: number | null;
+    currentCount: number;
     createdAt: string;
 }
 
@@ -28,7 +30,8 @@ export default function ChannelsPage() {
         name: "",
         link: "",
         channelId: "",
-        type: "TELEGRAM" as "TELEGRAM" | "INSTAGRAM"
+        type: "TELEGRAM" as "TELEGRAM" | "INSTAGRAM",
+        targetCount: ""
     });
 
     const fetchChannels = async () => {
@@ -56,11 +59,16 @@ export default function ChannelsPage() {
         setLoading(true);
 
         try {
-            await axios.post("/api-backend/channels", form, {
+            const payload = {
+                ...form,
+                targetCount: form.targetCount ? parseInt(form.targetCount) : undefined
+            };
+
+            await axios.post("/api-backend/channels", payload, {
                 headers: { Authorization: `Bearer ${session?.accessToken}` }
             });
             toast.success("Kanal qo'shildi!");
-            setForm({ name: "", link: "", channelId: "", type: "TELEGRAM" });
+            setForm({ name: "", link: "", channelId: "", type: "TELEGRAM", targetCount: "" });
             fetchChannels();
         } catch (error: any) {
             console.error("Error adding channel:", error);
@@ -124,6 +132,18 @@ export default function ChannelsPage() {
                                     </select>
                                 </div>
                                 <div>
+                                    <label className="text-xs text-gray-400">Limit (Obunachilar soni)</label>
+                                    <Input
+                                        type="number"
+                                        placeholder="Bo'sh qoldirilsa cheksiz"
+                                        value={form.targetCount}
+                                        onChange={(e) => setForm({ ...form, targetCount: e.target.value })}
+                                    />
+                                    <p className="text-[10px] text-gray-500 mt-1">
+                                        Shuncha odam qo'shilgach, kanal avtomatik o'chadi.
+                                    </p>
+                                </div>
+                                <div>
                                     <label className="text-xs text-gray-400">Link (A'zo bo'lish uchun)</label>
                                     <Input
                                         placeholder="https://t.me/kino"
@@ -173,12 +193,32 @@ export default function ChannelsPage() {
                                             )}
                                         </div>
                                     </div>
-                                    <button
-                                        onClick={() => handleDelete(channel.id)}
-                                        className="p-2 text-gray-400 hover:text-red-500 bg-gray-900 rounded-lg hover:bg-red-500/10 transition-colors"
-                                    >
-                                        <Trash2 className="h-5 w-5" />
-                                    </button>
+
+                                    <div className="flex items-center gap-4">
+                                        <div className="text-right">
+                                            <div className="flex items-center gap-1 text-sm text-gray-300">
+                                                <Users className="h-3 w-3" />
+                                                <span>{channel.currentCount} / {channel.targetCount || '∞'}</span>
+                                            </div>
+                                            <div className="w-24 h-1 bg-gray-700 rounded-full mt-1 overflow-hidden">
+                                                <div
+                                                    className="h-full bg-blue-500 transition-all duration-500"
+                                                    style={{
+                                                        width: channel.targetCount
+                                                            ? `${Math.min((channel.currentCount / channel.targetCount) * 100, 100)}%`
+                                                            : '0%'
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <button
+                                            onClick={() => handleDelete(channel.id)}
+                                            className="p-2 text-gray-400 hover:text-red-500 bg-gray-900 rounded-lg hover:bg-red-500/10 transition-colors"
+                                        >
+                                            <Trash2 className="h-5 w-5" />
+                                        </button>
+                                    </div>
                                 </div>
                             ))
                         )}
