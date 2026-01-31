@@ -3,24 +3,48 @@ import { NextRequest, NextResponse } from 'next/server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: NextRequest, { params }: { params: { path?: string[] } }) {
-    return proxyRequest(request, 'GET', params.path);
+interface RouteContext {
+    params: Promise<{ path?: string[] }>;
 }
 
-export async function POST(request: NextRequest, { params }: { params: { path?: string[] } }) {
-    return proxyRequest(request, 'POST', params.path);
+export async function GET(
+    request: NextRequest,
+    { params }: { params: Promise<{ path?: string[] }> }
+) {
+    const { path } = await params;
+    return proxyRequest(request, 'GET', path);
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { path?: string[] } }) {
-    return proxyRequest(request, 'PUT', params.path);
+export async function POST(
+    request: NextRequest,
+    { params }: { params: Promise<{ path?: string[] }> }
+) {
+    const { path } = await params;
+    return proxyRequest(request, 'POST', path);
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { path?: string[] } }) {
-    return proxyRequest(request, 'DELETE', params.path);
+export async function PUT(
+    request: NextRequest,
+    { params }: { params: Promise<{ path?: string[] }> }
+) {
+    const { path } = await params;
+    return proxyRequest(request, 'PUT', path);
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { path?: string[] } }) {
-    return proxyRequest(request, 'PATCH', params.path);
+export async function DELETE(
+    request: NextRequest,
+    { params }: { params: Promise<{ path?: string[] }> }
+) {
+    const { path } = await params;
+    return proxyRequest(request, 'DELETE', path);
+}
+
+export async function PATCH(
+    request: NextRequest,
+    { params }: { params: Promise<{ path?: string[] }> }
+) {
+    const { path } = await params;
+    return proxyRequest(request, 'PATCH', path);
 }
 
 async function proxyRequest(request: NextRequest, method: string, pathSegments?: string[]) {
