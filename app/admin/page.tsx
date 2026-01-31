@@ -123,16 +123,9 @@ export default function AdminDashboard() {
                         </Link>
 
                         <Link href="/admin/channels">
-                            <div className="flex items-center gap-3 p-4 bg-orange-600/10 border border-orange-500/20 hover:bg-orange-600/20 rounded-lg transition-all cursor-pointer mb-4">
+                            <div className="flex items-center gap-3 p-4 bg-orange-600/10 border border-orange-500/20 hover:bg-orange-600/20 rounded-lg transition-all cursor-pointer">
                                 <Users className="h-5 w-5 text-orange-500" />
                                 <span className="font-bold">Majburiy Obuna Kanallari</span>
-                            </div>
-                        </Link>
-
-                        <Link href="/admin/bot-ads">
-                            <div className="flex items-center gap-3 p-4 bg-cyan-600/10 border border-cyan-500/20 hover:bg-cyan-600/20 rounded-lg transition-all cursor-pointer">
-                                <Megaphone className="h-5 w-5 text-cyan-500" />
-                                <span className="font-bold">Bot Reklama Tizimi</span>
                             </div>
                         </Link>
                     </SuperAdminGuard>
