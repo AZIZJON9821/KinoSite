@@ -16,8 +16,7 @@ export default function BotAdsPage() {
 
     const [form, setForm] = useState({
         message: "",
-        mediaUrl: "",
-        mediaType: "image" as "image" | "video"
+        file: null as File | null
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -35,19 +34,22 @@ export default function BotAdsPage() {
         setStats(null);
 
         try {
-            const { data } = await axios.post("/api-backend/bot/broadcast", {
-                message: form.message,
-                mediaUrl: form.mediaUrl || undefined,
-                mediaType: form.mediaUrl ? form.mediaType : undefined
-            }, {
+            const formData = new FormData();
+            formData.append("message", form.message);
+            if (form.file) {
+                formData.append("file", form.file);
+            }
+
+            const { data } = await axios.post("/api-backend/bot/broadcast", formData, {
                 headers: {
-                    Authorization: `Bearer ${session?.accessToken}`
+                    Authorization: `Bearer ${session?.accessToken}`,
+                    "Content-Type": "multipart/form-data"
                 }
             });
 
             setStats(data);
             toast.success(`Xabar yuborildi! Muvaffaqiyatli: ${data.sent}, Xatolik: ${data.failed}`);
-            setForm({ message: "", mediaUrl: "", mediaType: "image" });
+            setForm({ message: "", file: null });
         } catch (error: any) {
             console.error("Broadcast error:", error);
             const errorMsg = error.response?.data?.message || "Xabar yuborishda xatolik yuz berdi";
@@ -63,7 +65,7 @@ export default function BotAdsPage() {
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold mb-2">Bot Reklama Tizimi 🤖</h1>
                     <p className="text-gray-400">
-                        Telegram bot foydalanuvchilariga ommaviy xabar yuborish (Broadcast).
+                        Telegram bot foydalanuvchilariga ommaviy xabar yuborish (Rasm/Video fayl bilan).
                     </p>
                 </div>
 
@@ -90,46 +92,40 @@ export default function BotAdsPage() {
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-300 mb-2">
-                                        Media URL (Ixtiyoriy)
+                                        Rasm yoki Video yuklash (Ixtiyoriy)
                                     </label>
-                                    <div className="flex gap-2">
-                                        <div className="relative flex-1">
-                                            <Input
-                                                placeholder="https://example.com/image.jpg"
-                                                value={form.mediaUrl}
-                                                onChange={(e) => setForm({ ...form, mediaUrl: e.target.value })}
-                                                className="pl-10"
-                                            />
-                                            {form.mediaType === 'image' ? (
-                                                <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                                            ) : (
-                                                <Video className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                                            )}
-                                        </div>
-                                        <select
-                                            className="bg-gray-900 border border-gray-700 rounded-lg px-3 text-sm focus:outline-none focus:border-blue-500"
-                                            value={form.mediaType}
-                                            onChange={(e) => setForm({ ...form, mediaType: e.target.value as "image" | "video" })}
-                                        >
-                                            <option value="image">Rasm</option>
-                                            <option value="video">Video</option>
-                                        </select>
-                                    </div>
+                                    <Input
+                                        type="file"
+                                        accept="image/*,video/*"
+                                        onChange={(e) => setForm({ ...form, file: e.target.files?.[0] || null })}
+                                        className="bg-gray-900 border-gray-700 text-gray-300 file:bg-blue-600 file:text-white file:border-0 file:rounded-md file:px-2 file:py-1 file:mr-4 file:text-sm hover:file:bg-blue-700"
+                                    />
                                     <p className="text-xs text-gray-500 mt-1">
-                                        Rasm yoki video internetda ochiq bo'lishi kerak (Direct Link).
+                                        Fayl to'g'ridan-to'g'ri Telegramga yuklanadi (Serverda saqlanmaydi).
                                     </p>
                                 </div>
 
-                                {form.mediaUrl && (
+                                {form.file && (
                                     <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-800">
-                                        <p className="text-xs text-gray-400 mb-2">Media Preview:</p>
-                                        {form.mediaType === 'image' ? (
-                                            <img src={form.mediaUrl} alt="Preview" className="max-h-48 rounded mx-auto object-contain" />
+                                        <p className="text-xs text-gray-400 mb-2">Fayl: {form.file.name}</p>
+                                        {form.file.type.startsWith('image') ? (
+                                            <img
+                                                src={URL.createObjectURL(form.file)}
+                                                alt="Preview"
+                                                className="max-h-48 rounded mx-auto object-contain"
+                                                onLoad={(e) => URL.revokeObjectURL(e.currentTarget.src)}
+                                            />
                                         ) : (
-                                            <video src={form.mediaUrl} controls className="max-h-48 rounded mx-auto w-full" />
+                                            <video
+                                                src={URL.createObjectURL(form.file)}
+                                                controls
+                                                className="max-h-48 rounded mx-auto w-full"
+                                                onLoadedData={(e) => URL.revokeObjectURL(e.currentTarget.src)}
+                                            />
                                         )}
                                     </div>
                                 )}
+
 
                                 <Button
                                     type="submit"
