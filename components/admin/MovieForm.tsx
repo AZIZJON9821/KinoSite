@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { Loader2, Upload, X, Crop as CropIcon, Plus, Trash2, ChevronDown, ChevronUp, Layers } from "lucide-react";
 import { getImageUrl } from "@/lib/utils";
 import Cropper from "react-easy-crop";
+import NextImage from "next/image";
 
 interface MovieFormProps {
     initialData?: any;
@@ -277,7 +278,7 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
                             onClick={() => document.getElementById("poster-input")?.click()}
                         >
                             {posterPreview ? (
-                                <img src={posterPreview} alt="Preview" className="w-full h-full object-cover" />
+                                <NextImage src={posterPreview} alt="Preview" fill className="object-cover" />
                             ) : (
                                 <div className="flex flex-col items-center text-gray-500">
                                     <Upload className="h-10 w-10 mb-2 group-hover:text-blue-500 transition-colors" />
@@ -299,7 +300,9 @@ export default function MovieForm({ initialData, isEditing = false }: MovieFormP
                         <div className="relative aspect-[4/3] w-full bg-gray-900 border border-gray-800 rounded-xl overflow-hidden group">
                             {backdropPreview ? (
                                 <>
-                                    <img src={backdropPreview} alt="Banner" className="w-full h-full object-cover" />
+                                    <div className="relative w-full h-full">
+                                        <NextImage src={backdropPreview} alt="Banner" fill className="object-cover" />
+                                    </div>
                                     <button
                                         type="button"
                                         onClick={() => setShowCropModal(true)}
