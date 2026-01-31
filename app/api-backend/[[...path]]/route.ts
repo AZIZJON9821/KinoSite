@@ -49,7 +49,7 @@ export async function PATCH(
 
 async function proxyRequest(request: NextRequest, method: string, pathSegments?: string[]) {
     try {
-        const backendUrl = process.env.BACKEND_URL || 'http://51.20.250.43:3000';
+        const backendUrl = process.env.BACKEND_URL || 'http://56.228.41.173:3000';
 
         // Build target path
         const path = pathSegments ? `/${pathSegments.join('/')}` : '';
