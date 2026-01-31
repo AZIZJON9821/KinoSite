@@ -2,8 +2,9 @@
 
 import { useMovie, useSavedMovies, useToggleSaveMovie } from "@/hooks/useMovies";
 import { Button } from "@/components/ui/Button";
-import { Play, Plus, Check } from "lucide-react";
+import { Play, Plus, Check, Edit } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { getImageUrl, getYouTubeEmbedUrl } from "@/lib/utils";
 import { useSession } from "next-auth/react";
@@ -20,6 +21,7 @@ export default function MovieDetailPage() {
     const { mutate: toggleSave, isPending: isSaving } = useToggleSaveMovie();
 
     const isSaved = savedMovies?.some((m: any) => m.id === movie?.id);
+    const isAdmin = session?.user?.role === "ADMIN" || session?.user?.role === "SUPER_ADMIN";
 
     const handleToggleSave = () => {
         if (!session) {
@@ -40,13 +42,22 @@ export default function MovieDetailPage() {
             <div className="container mx-auto px-4 md:px-8 py-4 pt-20 md:pt-24">
 
                 {/* Movie Title */}
-                <div className="mb-4">
+                <div className="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-start gap-3">
                         <div className="w-1 h-12 bg-blue-500 rounded-full flex-shrink-0"></div>
                         <h1 className="text-2xl md:text-3xl font-black leading-tight uppercase">
                             {movie.title}
                         </h1>
                     </div>
+
+                    {isAdmin && (
+                        <Link href={`/admin/movies/edit/${movie.id}`}>
+                            <Button className="bg-amber-500 hover:bg-amber-600 text-black font-bold flex items-center gap-2 shadow-lg shadow-amber-500/20 px-6 py-2 rounded-xl transition-all hover:scale-105 active:scale-95">
+                                <Edit className="h-5 w-5" />
+                                Tahrirlash (Admin)
+                            </Button>
+                        </Link>
+                    )}
                 </div>
 
                 {/* POSTER + INFO TABLE SECTION */}
