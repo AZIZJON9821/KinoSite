@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Search, Plus, Edit, Trash2, Film, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { getImageUrl } from "@/lib/utils";
 import axios from "axios";
@@ -97,11 +98,16 @@ export default function AdminMovies() {
                                         <tr key={movie.id} className="hover:bg-white/[0.02] transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-3">
-                                                    <img
-                                                        src={getImageUrl(movie.poster)}
-                                                        alt={movie.title}
-                                                        className="h-12 w-8 object-cover rounded shadow-sm bg-gray-800"
-                                                    />
+                                                    <div className="relative h-12 w-8 flex-shrink-0 rounded overflow-hidden bg-gray-800">
+                                                        <Image
+                                                            src={getImageUrl(movie.poster)}
+                                                            alt={movie.title}
+                                                            fill
+                                                            className="object-cover"
+                                                            sizes="32px"
+                                                            unoptimized
+                                                        />
+                                                    </div>
                                                     <span className="font-bold text-gray-200">{movie.title}</span>
                                                 </div>
                                             </td>

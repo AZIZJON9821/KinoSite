@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "http",
+        hostname: "56.228.41.173",
+        port: "3000",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "http",
         hostname: "ec2-51-20-250-43.eu-north-1.compute.amazonaws.com",
         port: "3000",
         pathname: "/uploads/**",
@@ -63,7 +69,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/uploads/:path*",
-        destination: "http://51.20.250.43:3000/uploads/:path*",
+        destination: "http://56.228.41.173:3000/uploads/:path*",
       },
     ];
   },
