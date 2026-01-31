@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { getImageUrl, getYouTubeEmbedUrl } from "@/lib/utils";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
+
 
 export default function MovieDetailPage() {
     const params = useParams();
@@ -53,12 +53,10 @@ export default function MovieDetailPage() {
                     {/* Poster */}
                     <div className="relative group">
                         <div className="aspect-[2/3] w-full rounded-lg overflow-hidden shadow-2xl relative">
-                            <Image
+                            <img
                                 src={getImageUrl(movie.poster)}
                                 alt={movie.title}
-                                fill
-                                className="object-cover"
-                                priority
+                                className="w-full h-full object-cover"
                             />
                         </div>
                     </div>
