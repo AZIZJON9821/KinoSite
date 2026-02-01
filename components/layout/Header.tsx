@@ -74,7 +74,7 @@ export function Header() {
                     : [])
             ]
         },
-        { label: "KINO YANGILIKLARI", href: "/#premyeralar" },
+        { label: "RANDOM", href: "/random" },
     ];
 
     return (
@@ -185,7 +185,6 @@ export function Header() {
             >
                 <nav className="flex flex-col gap-3">
                     {navItems
-                        .filter(item => item.label !== "KINO YANGILIKLARI") // Faqat KINO YANGILIKLARI chiqmasin
                         .map((item, index) => {
                             const colors = ['border-orange-500', 'border-green-500', 'border-blue-500', 'border-purple-500', 'border-yellow-500', 'border-red-500'];
                             const borderColor = colors[index % colors.length];
