@@ -7,6 +7,7 @@ import { Movie } from "@/types/movie";
 import { Button } from "@/components/ui/Button";
 import { Loader2, Shuffle, Play, ChevronRight, Info, Film, Tv, Palette, Zap } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn, getImageUrl } from "@/lib/utils";
 
 type CategoryID = 'MOVIE' | 'SERIAL' | 'ANIME' | 'MULTFILM';
@@ -286,10 +287,11 @@ export default function RandomPage() {
                                 <Link href={`/movies/${result.id}`} className="group relative block rounded-[2.5rem] overflow-hidden bg-gray-900 border border-gray-800 shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)] transition-all duration-500 hover:border-blue-500/40 hover:-translate-y-2">
                                     <div className="flex flex-col md:block relative">
                                         <div className="aspect-[4/5] md:aspect-[16/9] lg:aspect-[4/5] relative overflow-hidden">
-                                            <img
+                                            <Image
                                                 src={getImageUrl(result.poster)}
                                                 alt={result.title}
-                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                                fill
+                                                className="object-cover transition-transform duration-1000 group-hover:scale-110"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/20 to-transparent opacity-90 transition-opacity group-hover:opacity-80 md:block hidden"></div>
                                             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0f172a] to-transparent md:hidden"></div>
