@@ -26,6 +26,7 @@ export default function RandomPage() {
     const [result, setResult] = useState<Movie | null>(null);
     const [isSearching, setIsSearching] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [seenMovies, setSeenMovies] = useState<string[]>([]);
 
     const categories: Category[] = [
         {
@@ -117,6 +118,7 @@ export default function RandomPage() {
                 });
             });
 
+            // Filter by genres if more than one selected (first one is handled by API param if present)
             const finalResults = filteredMovies.filter(movie => {
                 if (selectedGenres.length <= 1) return true;
                 const movieGenreNames = movie.genres.map((g: any) => g.genre?.name?.toLowerCase() || "");
@@ -126,8 +128,20 @@ export default function RandomPage() {
             if (finalResults.length === 0) {
                 setError("Hech narsa topilmadi. Boshqa filtrlarni tanlab ko'ring.");
             } else {
-                const randomIndex = Math.floor(Math.random() * finalResults.length);
-                setResult(finalResults[randomIndex]);
+                // Filter out already seen movies
+                let availableMovies = finalResults.filter(m => !seenMovies.includes(m.id));
+
+                // If all movies have been seen, reset history and use all results
+                if (availableMovies.length === 0) {
+                    availableMovies = finalResults;
+                    setSeenMovies([]);
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableMovies.length);
+                const selectedMovie = availableMovies[randomIndex];
+
+                setResult(selectedMovie);
+                setSeenMovies(prev => [...prev, selectedMovie.id]);
             }
         } catch (err) {
             console.error("Random search error:", err);
@@ -350,15 +364,6 @@ export default function RandomPage() {
                                     </div>
                                 </Link>
 
-                                {/* <div className="mt-10 flex justify-center">
-                                    <button
-                                        onClick={handleRandomSearch}
-                                        className="text-gray-500 hover:text-white flex items-center gap-3 text-sm font-black transition-all group uppercase tracking-[0.2em] italic"
-                                    >
-                                        <Shuffle className="h-5 w-5 group-hover:rotate-180 transition-transform duration-700 text-blue-500" />
-                                        Boshqa tanlash
-                                    </button>
-                                </div> */}
                             </div>
                         )}
                     </div>
