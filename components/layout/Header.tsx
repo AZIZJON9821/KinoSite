@@ -35,7 +35,7 @@ export function Header() {
                 { label: "BARCHA KINOLAR", href: "/movies?type=MOVIE&excludeGenres=anime,multfilm" },
                 {
                     label: "ANIMELAR",
-                    href: "/movies?type=MOVIE&genre=anime"
+                    href: "/movies?genre=anime"
                 },
                 {
                     label: "MULTFILMLAR",
@@ -67,6 +67,7 @@ export function Header() {
                 ...(Array.isArray(genres)
                     ? genres
                         .filter(g => g.name.toLowerCase() !== "serial")
+                        .filter(g => g.name.toLowerCase() !== "anime")
                         .map(g => ({
                             label: g.name,
                             href: `/movies?genre=${g.name}`
