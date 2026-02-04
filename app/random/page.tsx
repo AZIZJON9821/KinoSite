@@ -152,7 +152,7 @@ export default function RandomPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0f172a] text-white pt-24 pb-12 px-4 selection:bg-blue-500/30 font-sans">
+        <div className="min-h-screen bg-[#0f172a] text-white pt-10 pb-12 px-4 selection:bg-blue-500/30 font-sans">
             <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-16 relative">
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-48 h-48 bg-blue-600/10 blur-[100px] -z-10 animate-pulse"></div>
