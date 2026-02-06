@@ -17,6 +17,7 @@ interface Channel {
     type: 'TELEGRAM' | 'INSTAGRAM';
     targetCount?: number | null;
     currentCount: number;
+    expiresAt?: string | null;
     createdAt: string;
 }
 
@@ -31,7 +32,8 @@ export default function ChannelsPage() {
         link: "",
         channelId: "",
         type: "TELEGRAM" as "TELEGRAM" | "INSTAGRAM",
-        targetCount: ""
+        targetCount: "",
+        expiresAt: ""
     });
 
     const fetchChannels = async () => {
@@ -68,7 +70,7 @@ export default function ChannelsPage() {
                 headers: { Authorization: `Bearer ${session?.accessToken}` }
             });
             toast.success("Kanal qo'shildi!");
-            setForm({ name: "", link: "", channelId: "", type: "TELEGRAM", targetCount: "" });
+            setForm({ name: "", link: "", channelId: "", type: "TELEGRAM", targetCount: "", expiresAt: "" });
             fetchChannels();
         } catch (error: any) {
             console.error("Error adding channel:", error);
@@ -143,6 +145,18 @@ export default function ChannelsPage() {
                                     />
                                     <p className="text-[10px] text-gray-500 mt-1">
                                         Shuncha odam qo'shilgach, kanal avtomatik o'chadi.
+                                    </p>
+                                </div>
+                                <div>
+                                    <label className="text-xs text-gray-400 block mb-1">Amal Qilish Muddati (Vaqt)</label>
+                                    <Input
+                                        type="datetime-local"
+                                        value={form.expiresAt}
+                                        onChange={(e) => setForm({ ...form, expiresAt: e.target.value })}
+                                        className="text-sm"
+                                    />
+                                    <p className="text-[10px] text-gray-500 mt-1">
+                                        Shu vaqtdan keyin kanal majburiy ro'yxatdan o'chadi.
                                     </p>
                                 </div>
                                 <div>
@@ -225,6 +239,14 @@ export default function ChannelsPage() {
                                                         }}
                                                     />
                                                 </div>
+                                                {channel.expiresAt && (
+                                                    <p className="text-[10px] text-gray-400 mt-2">
+                                                        ⏳ Gacha: {new Date(channel.expiresAt).toLocaleString('uz-UZ')}
+                                                        {new Date(channel.expiresAt) < new Date() && (
+                                                            <span className="text-red-500 ml-2 font-bold">(Muddati o'tgan)</span>
+                                                        )}
+                                                    </p>
+                                                )}
                                             </div>
 
                                             <button
