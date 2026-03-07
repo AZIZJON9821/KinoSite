@@ -5,6 +5,8 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+const BACKEND_BASE = "https://kino-sayt-backend.onrender.com";
+
 export function getResourceUrl(path: string | undefined | null, type: 'poster' | 'video' | 'ad' = 'poster') {
     if (!path) return type === 'poster' ? "https://via.placeholder.com/800x400?text=No+Image" : "";
     if (path.startsWith("http")) return path;
@@ -12,18 +14,16 @@ export function getResourceUrl(path: string | undefined | null, type: 'poster' |
     // Clean up the path: remove leading slashes
     let cleanPath = path.replace(/^\/+/, '');
 
-    // Return relative URL for assets
-    // This allows the proxy in next.config.ts (rewrites) to handle the cross-origin/protocol request
-    // and prevents Mixed Content errors on HTTPS sites like Vercel.
+    // Return absolute URL pointing to the Render backend so Next.js Image can load them
     if (cleanPath.startsWith('uploads/')) {
-        return `/${cleanPath}`;
+        return `${BACKEND_BASE}/${cleanPath}`;
     }
 
     let folder = 'posters';
     if (type === 'video') folder = 'videos';
     if (type === 'ad') folder = 'ads';
 
-    return `/uploads/${folder}/${cleanPath}`;
+    return `${BACKEND_BASE}/uploads/${folder}/${cleanPath}`;
 }
 
 export function getImageUrl(path: string | undefined | null) {
