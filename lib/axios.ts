@@ -6,7 +6,7 @@ import { getSession } from "next-auth/react";
 
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 const API_URL = typeof window === "undefined"
-    ? (process.env.NEXT_PUBLIC_API_URL || "http://56.228.41.173:3000")
+    ? (process.env.NEXT_PUBLIC_API_URL || "https://kino-sayt-backend.onrender.com")
     : "/api-backend";
 
 const api = axios.create({

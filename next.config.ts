@@ -29,15 +29,8 @@ const nextConfig: NextConfig = {
         pathname: "/uploads/**",
       },
       {
-        protocol: "http",
-        hostname: "56.228.41.173",
-        port: "3000",
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "http",
-        hostname: "ec2-51-20-250-43.eu-north-1.compute.amazonaws.com",
-        port: "3000",
+        protocol: "https",
+        hostname: "kino-sayt-backend.onrender.com",
         pathname: "/uploads/**",
       },
     ],
@@ -65,11 +58,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api-backend/:path*",
-        destination: "http://56.228.41.173:3000/:path*",
+        destination: `${process.env.BACKEND_URL || "https://kino-sayt-backend.onrender.com"}/:path*`,
       },
       {
         source: "/uploads/:path*",
-        destination: "http://56.228.41.173:3000/uploads/:path*",
+        destination: `${process.env.BACKEND_URL || "https://kino-sayt-backend.onrender.com"}/uploads/:path*`,
       },
     ];
   },
