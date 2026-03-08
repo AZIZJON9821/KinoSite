@@ -13,9 +13,11 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 try {
+                    console.log("[NextAuth] Attempting login to Render...", account.provider);
                     const response = await axios.post(`https://kino-sayt-backend.onrender.com/auth/google`, {
                         token: account.id_token || account.access_token,
                     });
+                    console.log("[NextAuth] Render response status:", response.status);
 
                     if (response.data) {
                         user.token = response.data.access_token;
@@ -24,9 +26,14 @@ export const authOptions: NextAuthOptions = {
                         user.id = response.data.user?.id;
                         return true;
                     }
+                    console.error("[NextAuth] Authentication rejected. Response data missing or malformed:", response.data);
                     return false;
-                } catch (error) {
-                    console.error("Backend auth failed:", error);
+                } catch (error: any) {
+                    console.error("[NextAuth] Backend auth failed FATALLY:", error.message);
+                    if (error.response) {
+                        console.error("[NextAuth] Error response data:", error.response.data);
+                        console.error("[NextAuth] Error response status:", error.response.status);
+                    }
                     return false;
                 }
             }
