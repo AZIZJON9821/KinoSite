@@ -49,7 +49,7 @@ export async function PATCH(
 
 async function proxyRequest(request: NextRequest, method: string, pathSegments?: string[]) {
     try {
-        const backendUrl = process.env.BACKEND_URL || 'https://kino-sayt-backend.onrender.com';
+        const backendUrl = 'https://kino-sayt-backend.onrender.com';
 
         // Build target path
         const path = pathSegments ? `/${pathSegments.join('/')}` : '';

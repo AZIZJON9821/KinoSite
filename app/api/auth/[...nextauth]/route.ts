@@ -6,4 +6,5 @@ const handler = NextAuth(authOptions);
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+// FORCE CACHE INVALIDATION
 export { handler as GET, handler as POST };

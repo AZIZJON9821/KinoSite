@@ -58,11 +58,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api-backend/:path*",
-        destination: `${process.env.BACKEND_URL || "https://kino-sayt-backend.onrender.com"}/:path*`,
+        destination: `https://kino-sayt-backend.onrender.com/:path*`,
       },
       {
         source: "/uploads/:path*",
-        destination: `${process.env.BACKEND_URL || "https://kino-sayt-backend.onrender.com"}/uploads/:path*`,
+        destination: `https://kino-sayt-backend.onrender.com/uploads/:path*`,
       },
     ];
   },
