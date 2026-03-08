@@ -13,8 +13,7 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             if (account?.provider === "google") {
                 try {
-                    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://kino-sayt-backend.onrender.com";
-                    const response = await axios.post(`${backendUrl}/auth/google`, {
+                    const response = await axios.post(`https://kino-sayt-backend.onrender.com/auth/google`, {
                         token: account.id_token || account.access_token,
                     });
 
