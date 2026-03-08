@@ -6,8 +6,12 @@ import { getSession } from "next-auth/react";
 
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 const API_URL = typeof window === "undefined"
-    ? (process.env.NEXT_PUBLIC_API_URL || "https://kino-sayt-backend.onrender.com")
+    ? "https://kino-sayt-backend.onrender.com"
     : "/api-backend";
+
+if (typeof window !== "undefined") {
+    console.log("[Axios Debug] Client API_URL:", API_URL);
+}
 
 const api = axios.create({
     baseURL: API_URL,
