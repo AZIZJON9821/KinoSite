@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "http",
@@ -27,6 +28,11 @@ const nextConfig: NextConfig = {
         hostname: "51.20.250.43",
         port: "3000",
         pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "njbfeuwlaeeqkbhsandh.supabase.co",
+        pathname: "/storage/v1/object/public/**",
       },
       {
         protocol: "https",
@@ -55,14 +61,17 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
+    const isDev = process.env.NODE_ENV === 'development';
+    const backendUrl = isDev ? "http://localhost:3000" : "https://kino-sayt-backend.onrender.com";
+    
     return [
       {
         source: "/api-backend/:path*",
-        destination: `https://kino-sayt-backend.onrender.com/:path*`,
+        destination: `${backendUrl}/:path*`,
       },
       {
         source: "/uploads/:path*",
-        destination: `https://kino-sayt-backend.onrender.com/uploads/:path*`,
+        destination: `${backendUrl}/uploads/:path*`,
       },
     ];
   },

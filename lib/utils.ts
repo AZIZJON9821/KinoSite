@@ -5,25 +5,28 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-const BACKEND_BASE = "https://kino-sayt-backend.onrender.com";
+// Use local backend in development, Render in production
+const BACKEND_BASE = typeof window !== 'undefined' && window.location.hostname === 'localhost'
+    ? 'http://localhost:3000'
+    : 'https://kino-sayt-backend.onrender.com';
+
+const SUPABASE_STORAGE_BASE = "https://njbfeuwlaeeqkbhsandh.supabase.co/storage/v1/object/public";
 
 export function getResourceUrl(path: string | undefined | null, type: 'poster' | 'video' | 'ad' = 'poster') {
     if (!path) return type === 'poster' ? "https://via.placeholder.com/800x400?text=No+Image" : "";
     if (path.startsWith("http")) return path;
 
-    // Clean up the path: remove leading slashes
-    let cleanPath = path.replace(/^\/+/, '');
+    // Clean up the path: remove leading slashes and 'uploads/' prefix if present
+    let cleanPath = path.replace(/^\/+/, '').replace(/^uploads\//, '');
+    
+    // For old database entries that might have 'posters/', 'backdrops/' etc. in the path
+    cleanPath = cleanPath.replace(/^(posters|backdrops|ads|videos|video)\//, '');
 
-    // Return absolute URL pointing to the Render backend so Next.js Image can load them
-    if (cleanPath.startsWith('uploads/')) {
-        return `${BACKEND_BASE}/${cleanPath}`;
-    }
+    let bucket = 'posters';
+    if (type === 'video') bucket = 'video';
+    if (type === 'ad') bucket = 'ads';
 
-    let folder = 'posters';
-    if (type === 'video') folder = 'videos';
-    if (type === 'ad') folder = 'ads';
-
-    return `${BACKEND_BASE}/uploads/${folder}/${cleanPath}`;
+    return `${SUPABASE_STORAGE_BASE}/${bucket}/${cleanPath}`;
 }
 
 export function getImageUrl(path: string | undefined | null) {

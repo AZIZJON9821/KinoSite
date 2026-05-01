@@ -6,7 +6,7 @@ import { getSession } from "next-auth/react";
 
 // const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 const API_URL = typeof window === "undefined"
-    ? "https://kino-sayt-backend.onrender.com"
+    ? (process.env.BACKEND_URL || "http://localhost:3000")
     : "/api-backend";
 
 if (typeof window !== "undefined") {

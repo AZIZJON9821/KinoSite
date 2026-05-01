@@ -34,6 +34,10 @@ export default function RootLayout({
                         <div className="flex flex-col min-h-screen bg-[#111827]">
                             <Header />
                             <div className="pt-20 flex flex-col gap-1"> {/* Header height offset */}
+                                <div id="env-debug" style={{ display: 'none' }}
+                                    data-api-url={process.env.NEXT_PUBLIC_API_URL}
+                                    data-node-env={process.env.NODE_ENV}
+                                />
                                 <CircularNav />
                                 <SubHeader />
                                 <main className="flex-grow text-foreground antialiased selection:bg-primary selection:text-white">
